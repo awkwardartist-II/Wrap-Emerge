@@ -1,0 +1,75 @@
+#!/bin/bash
+
+HOOK_RETURN_FILE="$(mktemp -q)"
+
+# "input" arguments, passed from
+# this wrapper to emerge
+INPUT_HOOK_ARGS=(
+	"EWRAP_ENABLE=1"
+	"EWRAP_RETURN=${HOOK_RETURN_FILE}"
+)
+
+
+# emerge arguments (plain)
+EMERGE_ARGS=()
+EMERGE_PKGS=()
+
+at_exit() {
+	return
+}
+trap at_exit EXIT
+
+# splits provided arguments into
+# switches (--*) and packages (*)
+parse-emerge-args() {
+	for arg in $@; do
+		# check for custom args:
+		case "$arg" in
+			# disable ALL hooks
+			--nohooks )
+				INPUT_HOOK_ARGS=(${INPUT_HOOK_ARGS[@]} 'EWRAP_ENABLE=0') ;;
+
+			# disable all hooks for a specific package
+			--nohooks=* )
+				INPUT_HOOK_ARGS=(${INPUT_HOOK_ARGS[@]} \
+			        "EWRAP_DISABLE_HOOKS=(\"${arg##*=}\" ${EWRAP_DISABLE_HOOKS[@]}") ;;
+			
+			# treat unknown args as emerge args
+			-* )
+				EMERGE_ARGS=("$arg" ${EMERGE_ARGS[@]}) ;;
+			# anything not starting with '-'
+			# treat as emerge package arg
+			* )
+				EMERGE_PKGS=("$arg" ${EMERGE_PKGS[@]}) ;;
+			
+		esac
+	done
+}
+
+parse-emerge-args $@
+
+# call emerge, pass hooks and
+# modified arguments to call
+sudo chown awkward "$HOOK_RETURN_FILE"
+
+#sudo chmod +t "$HOOK_RETURN_FILE"
+sudo ${INPUT_HOOK_ARGS[@]} emerge ${EMERGE_ARGS[@]} ${EMERGE_PKGS[@]}
+
+chmod +x "$HOOK_RETURN_FILE"
+GDK_BACKEND=wayland $HOOK_RETURN_FILE
+
+### TO-DO ###
+
+# * Create a --ccache flag that toggles ccache
+
+# * Create a --drophooks/--drophooks="package"
+#   flag that disables all hooks or a
+#   single packages hooks if = provided
+
+# * Create a --hooks=
+
+# * Create a --delete flag which functions as
+#   emerge --deselect $@ && emerge --depclean --ask
+
+# * Define hook 'savedconfig' and in /etc/portage/package.hook
+#   write 'sys-kernel/gentoo-kernel savedconfig'
