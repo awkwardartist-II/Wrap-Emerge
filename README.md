@@ -19,4 +19,10 @@ dev-vcs/git gitsetup
 
 With these files present, portage will execute gitsetup.sh in post_pkg_setup. 
 
+## How to Install
+
+Place 'bashrc' at /etc/portage/bashrc, and 'wrap-emerge' on your `$PATH`. I'd recommend also using an alias to map the emerge command to the wrapper:
+
+`alias emerge='wrap-emerge'`
+
 **This software was created by man, not machine**
