@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# in Pictures/
-
-
 HOOK_SCRIPT_DIR='/etc/portage/hook'
 HOOK_PKG_DIR='/etc/portage/package.hook'
-
-# in Downloads/
-# in Scripts/
 
 # returns true if wrappper and hooks
 # enabled, false if overriden or disabled
