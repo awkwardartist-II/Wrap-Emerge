@@ -11,7 +11,7 @@ To define a hook when dev-vcs/git is set up, in `/etc/portage/hook/gitsetup.sh`:
 
 einfo 'Git has been set up!'
 ```
-And then in `/etc/portage/package.hook/git`:
+Ensure this file always ends in '.sh'. And then in `/etc/portage/package.hook/git`:
 
 ```
 dev-vcs/git gitsetup
