@@ -2,9 +2,6 @@
 
 # in Pictures/
 
-# custom wallpaper to copy
-# to hyprland install dir
-PIC_WALLPAPER='wallpaper.png'
 
 HOOK_SCRIPT_DIR='/etc/portage/hook'
 HOOK_PKG_DIR='/etc/portage/package.hook'
