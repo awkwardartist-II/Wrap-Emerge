@@ -3,49 +3,11 @@
 HOOK_SCRIPT_DIR='/etc/portage/hook'
 HOOK_PKG_DIR='/etc/portage/package.hook'
 
-# returns true if wrappper and hooks
-# enabled, false if overriden or disabled
-ewrap_hook_enabled() {
-	# ensure wrapper enabled
-	if ! [ "${EWRAP_ENABLE}" = '1' ]
-	then
-		# wrapper not enabled
-		return 1
-	fi	
-	# check if this packages hooks
-	# are disabled by the user
-	if echo "${EWRAP_DISABLE_HOOKS}" | grep -qE "${CATEGORY}/${PN}|${PN}"
-	then
-		# hook disabled for this package
-		return 1
-	fi
-	# hooks are enabled
-	return 0
-}
-
-# ensures hook files/directories exist
-ewrap_hook_setup() {
-	if [ -d "${HOOK_SCRIPT_DIR}" ] && [ -d "${HOOK_PKG_DIR}" ]
-	then
-		# hook files/directories already created
-		return 0
-	fi
-	# hooks cannot be used, directories not found
-	return 1
-}
 
 # prototype custom hook function,
 # takes 'portage hook function' as
 # an argument (e.g. pre_pkg_setup)
 ewrap_hook_discover() {
-	# ensure hook setup defined
-	if ! ewrap_hook_setup
-	then
-		 # hook directories not set up,
-		 # disable for full run
-		 EWRAP_ENABLE=
-		 return
-	fi
 	# ensure header value is provided
 	if [ $# -eq 0 ]; then return; fi
 	local hdr="#$1"
