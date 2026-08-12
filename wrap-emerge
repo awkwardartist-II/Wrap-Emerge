@@ -2,10 +2,7 @@
 
 # "input" arguments, passed from
 # this wrapper to emerge
-INPUT_HOOK_ARGS=(
-	"EWRAP_ENABLE=1"
-	"EWRAP_RETURN=${HOOK_RETURN_FILE}"
-)
+INPUT_HOOK_ARGS=("EWRAP_ENABLE=1" "EWRAP_RETURN=${HOOK_RETURN_FILE}")
 
 
 # emerge arguments (plain)
