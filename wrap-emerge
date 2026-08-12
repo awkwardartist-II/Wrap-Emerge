@@ -1,7 +1,5 @@
 #!/bin/bash
 
-HOOK_RETURN_FILE="$(mktemp -q)"
-
 # "input" arguments, passed from
 # this wrapper to emerge
 INPUT_HOOK_ARGS=(
