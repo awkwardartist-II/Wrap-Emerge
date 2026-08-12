@@ -25,4 +25,6 @@ Place 'bashrc' at /etc/portage/bashrc, and 'wrap-emerge' on your `$PATH`. I'd re
 
 `alias emerge='wrap-emerge'`
 
+You must also create /etc/portage/package.hook and /etc/portage/hook directories yourself.
+
 **This software was created by man, not machine**
