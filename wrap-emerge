@@ -48,15 +48,7 @@ parse-emerge-args() {
 
 parse-emerge-args $@
 
-# call emerge, pass hooks and
-# modified arguments to call
-sudo chown awkward "$HOOK_RETURN_FILE"
-
-#sudo chmod +t "$HOOK_RETURN_FILE"
 sudo ${INPUT_HOOK_ARGS[@]} emerge ${EMERGE_ARGS[@]} ${EMERGE_PKGS[@]}
-
-chmod +x "$HOOK_RETURN_FILE"
-GDK_BACKEND=wayland $HOOK_RETURN_FILE
 
 ### TO-DO ###
 
